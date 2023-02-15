@@ -1,0 +1,103 @@
+<button (click)="addNewCompany()">Add new Company</button><br /><br />
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <div formArrayName="companies">
+    <div *ngFor="let comp of myForm.get('companies').controls; let i = index">
+      <fieldset>
+        <legend>
+          <h3>COMPANY {{ i + 1 }}:</h3>
+        </legend>
+        <div [formGroupName]="i">
+          <label>Company Name: </label>
+          <input formControlName="company" /><span
+            ><button (click)="deleteCompany(i)">Delete Company</button></span
+          >
+          <div formArrayName="projects">
+            <div
+              *ngFor="
+                let project of comp.get('projects').controls;
+                let j = index
+              "
+            >
+              <fieldset>
+                <legend>
+                  <h4>PROJECT {{ j + 1 }}</h4>
+                </legend>
+                <div [formGroupName]="j">
+                  <label>Project Name:</label>
+                  <input formControlName="projectName" />
+                  <label>Rec Name:</label>
+                  <input formControlName="rec" /><span
+                    ><button (click)="deleteProject(comp.controls.projects, j)">
+                      Delete Project
+                    </button></span
+                  >
+                  <div formArrayName="op">
+                    <div
+                      *ngFor="
+                        let pro of project.get('op').controls;
+                        let k = index
+                      "
+                    >
+                      <fieldset>
+                        <legend>
+                          <h4>option {{ k + 1 }}</h4>
+                        </legend>
+                        <div [formGroupName]="k">
+                          <label>a Name:</label>
+                          <input formControlName="a" />
+                          <label>b Name:</label>
+                          <input formControlName="b" /><span
+                            ><button
+                              (click)="deleteProject(comp.controls.op, k)"
+                            >
+                              Delete Project
+                            </button></span
+                          >
+                          <div formArrayName="c">
+                            <div
+                              *ngFor="
+                                let pr of pro.get('c').controls;
+                                let l = index
+                              "
+                            >
+                              <fieldset>
+                                <legend>
+                                  <h4>recom {{ l + 1 }}</h4>
+                                </legend>
+                                <div [formGroupName]="l">
+                                  <label>a Name:</label>
+                                  <input formControlName="d" />
+                                  <label>b Name:</label>
+                                  <input formControlName="e" /><span
+                                    ><button
+                                      (click)="
+                                        deleteProject(comp.controls.op, l)
+                                      "
+                                    >
+                                      Delete Project
+                                    </button></span
+                                  >
+                                </div>
+                              </fieldset>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <button (click)="addNewProject(comp.controls.projects)">
+              Add new Project
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <br />
+  <button type="submit" class="submit_cta">Submit</button>
+</form>
+
+<pre>{{ myForm.value | json }}</pre>
